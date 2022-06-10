@@ -38,6 +38,16 @@ describe('commonElements', () => {
   container.register(ACCESS_TOKEN_GENERATOR_KEY, () => createStoreAccessToken);
   container.register(ICO_REPOSITORY_KEY, (c) => new StoreRepository(c.get(IOC_TOKEN_KEY)));
 
+  test('Check username', () => {
+    const username = container.get(IOC_USERNAME_KEY)
+    expect(username).toEqual(STORE_USERNAME)
+  })
+
+  test('Check generator function', () => {
+    const generator = container.get(ACCESS_TOKEN_GENERATOR_KEY)
+    expect(generator).toEqual(createStoreAccessToken)
+  })
+
   test('Check store access token', () => {
     const StoreAccessToken = container.get(IOC_TOKEN_KEY);
     expect(StoreAccessToken).toEqual(TOKEN_1);
@@ -53,12 +63,6 @@ describe('commonElements', () => {
     const storeRepository = container.get(ICO_REPOSITORY_KEY);
     const repositoryToken = storeRepository.getToken();
     expect(repositoryToken).toEqual(TOKEN_1);
-  })
-
-  test('Change token generator', () => {
-    container.register(ACCESS_TOKEN_GENERATOR_KEY, () => anotherCreateStoreAccessToken);
-    const newToken = container.get(IOC_TOKEN_KEY);
-    expect(newToken).toEqual(TOKEN_2);
   })
 
   test('Change token generator', () => {
